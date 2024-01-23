@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message Employee {
+  int32 id = 1;
+  string name = 2;
+  float salary = 3;
+}
+
+message Employees {
+// repeated representa "a quantidade necessária".
+// Utilizado para representar um Array também, no caso
+// estamos representando um array de employees do tipo
+// Employee na posição 1.
+  repeated Employee employees = 1;
+}
