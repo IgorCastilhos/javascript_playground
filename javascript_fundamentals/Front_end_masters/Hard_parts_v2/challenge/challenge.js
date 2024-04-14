@@ -39,8 +39,8 @@ function outer() {
   return incrementCounter;
 }
 
-const willCounter = outer();
-const jasCounter = outer();
+// const willCounter = outer();
+// const jasCounter = outer();
 
 // Uncomment each of these lines one by one.
 // Before your do, guess what will be logged from each function call.
@@ -61,7 +61,7 @@ function addByX(x) {
 }
 
 // /*** Uncomment these to check your work! ***/
-const addByTwo = addByX(2);
+// const addByTwo = addByX(2);
 // console.log(addByTwo(1)); // => should return 3
 // console.log(addByTwo(2)); // => should return 4
 // console.log(addByTwo(3)); // => should return 5
@@ -77,7 +77,6 @@ const addByTwo = addByX(2);
 
 // CHALLENGE 4
 function once(func) {
-
   let result = 0;
 
   function callOnce(x) {
@@ -93,7 +92,7 @@ function once(func) {
 }
 
 // /*** Uncomment these to check your work! ***/
-const onceFunc = once(addByTwo);
+// const onceFunc = once(addByTwo);
 // console.log(onceFunc(4));  // => should log 6
 // console.log(onceFunc(10));  // => should log 6
 // console.log(onceFunc(9001));  // => should log 6
@@ -114,7 +113,9 @@ function after(count, func) {
 }
 
 // /*** Uncomment these to check your work! ***/
-const called = function() { console.log('hello') };
+const called = function () {
+  console.log('hello');
+};
 const afterCalled = after(3, called);
 // afterCalled(); // => nothing is printed
 // afterCalled(); // => nothing is printed
@@ -122,31 +123,59 @@ const afterCalled = after(3, called);
 
 
 // CHALLENGE 6
-function delay(func, wait) {
-
+function delay(func, wait, ...params) {
+  setTimeout(() => {
+    func(...params);
+  }, wait);
 }
 
 
 // CHALLENGE 7
 function rollCall(names) {
-
+  // To keep track of the current name
+  let index = 0;
+  // Return a new function
+  return function () {
+    // Check if the index is still within the range of the names arr
+    if (index < names.length) {
+      // Log the current name at the index and then increment the index
+      console.log(names[index]);
+      index++;
+    } else {
+      // If all names have been logged, log 'Everyone accounted for'
+      console.log('Everyone accounted for');
+    }
+  };
 }
 
 // /*** Uncomment these to check your work! ***/
-// const rollCaller = rollCall(['Victoria', 'Juan', 'Ruth'])
-// rollCaller() // => should log 'Victoria'
-// rollCaller() // => should log 'Juan'
-// rollCaller() // => should log 'Ruth'
-// rollCaller() // => should log 'Everyone accounted for'
+const rollCaller = rollCall(['Victoria', 'Juan', 'Ruth']);
+// rollCaller(); // => should log 'Victoria'
+// rollCaller(); // => should log 'Juan'
+// rollCaller(); // => should log 'Ruth'
+// rollCaller(); // => should log 'Everyone accounted for'
 
 
 // CHALLENGE 8
 function saveOutput(func, magicWord) {
+  let obj = {};
 
+  function save(x) {
+    if (x === magicWord) {
+      return obj;
+    } else {
+      obj[x] = func(x);
+      return obj[x];
+    }
+  }
+
+  return save;
 }
 
 // /*** Uncomment these to check your work! ***/
-// const multiplyBy2 = function(num) { return num * 2; };
+// const multiplyBy2 = function (num) {
+//   return num * 2;
+// };
 // const multBy2AndLog = saveOutput(multiplyBy2, 'boo');
 // console.log(multBy2AndLog(2)); // => should log 4
 // console.log(multBy2AndLog(9)); // => should log 18
@@ -155,16 +184,24 @@ function saveOutput(func, magicWord) {
 
 // CHALLENGE 9
 function cycleIterator(array) {
+  let i = 0;
 
+  function iterate() {
+    let output = array[i % array.length];
+    i++;
+    return output;
+  }
+
+  return iterate;
 }
 
 // /*** Uncomment these to check your work! ***/
-// const threeDayWeekend = ['Fri', 'Sat', 'Sun'];
-// const getDay = cycleIterator(threeDayWeekend);
-// console.log(getDay()); // => should log 'Fri'
-// console.log(getDay()); // => should log 'Sat'
-// console.log(getDay()); // => should log 'Sun'
-// console.log(getDay()); // => should log 'Fri'
+const threeDayWeekend = ['Fri', 'Sat', 'Sun'];
+const getDay = cycleIterator(threeDayWeekend);
+console.log(getDay()); // => should log 'Fri'
+console.log(getDay()); // => should log 'Sat'
+console.log(getDay()); // => should log 'Sun'
+console.log(getDay()); // => should log 'Fri'
 
 
 // CHALLENGE 10
